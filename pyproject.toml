@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "job-seeker"
+version = "0.1.0"
+description = ""
+authors = ["Alexandr Gritsunov <ickpimo@gmail.com>"]
+readme = "README.md"
+packages = [{include = "job_seeker"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+pathlib = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
