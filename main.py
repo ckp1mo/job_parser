@@ -1,18 +1,19 @@
 from src.user_interaction import user_interaction, get_started
-from src.vacancy import VacancyOptions
+from src.vacancy import VacancyOptions, JSONSaver, Vacancy
 from pathlib import Path
 from utils.print_info import PrintInfo
 
-OUTPUT_FILE = Path(Path.cwd(), 'output_files', 'vacancy.json')
+VACANCY_FILE = Path(Path.cwd(), 'output_files', 'vacancy.json')
+VACANCY_FILE_FILTERED = Path(Path.cwd(), 'output_files', 'vacancy_filtered.json')
 
 
 print('Привет!')
-if OUTPUT_FILE.exists():
+if VACANCY_FILE.exists():
     bool_ = get_started()
     if bool_:
         while True:
             key_word = input('Введите ключевые слова для поиска по вакансиям: ').lower().split()
-            vacancy_list_by_key = VacancyOptions().get_by_key(OUTPUT_FILE, key_word)
+            vacancy_list_by_key = VacancyOptions().get_by_key(VACANCY_FILE, key_word)
             if len(vacancy_list_by_key) == 0:
                 print('Поиск по ключевым словам не удался')
                 user_repeat = input('Попробуем снова или начать новый поиск вакансий?'
