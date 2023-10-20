@@ -32,12 +32,21 @@ if VACANCY_FILE.exists():
             except IndexError:
                 print('Что-то случилось.. ')
             user_repeat = input('Попробуем снова или начать новый поиск вакансий?'
-                                '\n1. Попробовать еще раз'
-                                '\n2. Начать новый поиск'
-                                '\n3. Завершить программу\n')
+                                '\n1. Сохранить результаты в новый файл'
+                                '\n2. Попробовать еще раз'
+                                '\n3. Начать новый поиск'
+                                '\n4. Завершить программу\n')
             if user_repeat == '1':
-                continue
+                if VACANCY_FILE_FILTERED.exists():
+                    VACANCY_FILE_FILTERED.unlink()
+                Vacancy.vacancy_to_instance(vacancy_list_by_key)
+                JSONSaver().save_vacancy(Vacancy.all)
+                print('Вакансии сохранены, ищи их в рабочей директори по пути /output_files/vacancy_filtered.json')
+                print('Хорошего дня! :)')
+                break
             elif user_repeat == '2':
+                continue
+            elif user_repeat == '3':
                 user_interaction()
             else:
                 print('Хорошего дня! :)')
