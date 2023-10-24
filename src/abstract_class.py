@@ -4,7 +4,11 @@ from abc import abstractmethod, ABC
 class RequestApi(ABC):
 
     @abstractmethod
-    def get_vacancies(self):
+    def get_vacancies_sj(self):
+        pass
+
+    @abstractmethod
+    def get_vacancies_hh(self):
         pass
 
 
