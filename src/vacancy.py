@@ -134,6 +134,41 @@ class JSONSaver(VacancySaver):
                 })
             json.dump(to_json, f, ensure_ascii=False, indent=4)
 
+    @staticmethod
+    def get_file_name():
+        """
+        Метод запрашиает имя для файла перед сохранением. В случае, если имя не задано, тогда используется 'nameless'.
+        Если файл с таким же именем существует, предлагается его перезаписать.
+        Если перезапись файла не устраивает, то появляется предложение ввести новое имя для файла и оно не может быть
+        таким же как введенное ранее или существую
+        :return:
+        """
+        file_name = input('Введите имя файля для сохранения: \n')
+        if len(file_name) == 0:
+            file_name = 'nameless'
+        vacancy_file = Path(Path.cwd(), 'output_files', f'{file_name}.json')
+        if not vacancy_file.exists():
+            return file_name
+        else:
+            print(f'>> Файл с именем "{file_name}" уже существует, перезаписать?'
+                  '\n1. Да'
+                  '\n2. Нет')
+            user_solution = input('\n')
+            if user_solution == '2':
+                output_files = [name.stem.lower() for name in OUTPUT_DIR.glob('*.json')]
+                while True:
+                    new_name = input('Введите новое имя.\n')
+                    if new_name == '':
+                        new_name = 'nameless'
+                    if new_name.lower() in output_files:
+                        print(f'>> Новое имя "{new_name}" не должно совпадать с сущестующими именами файлов.')
+                        continue
+                    file_name = new_name
+                    break
+                return file_name
+            else:
+                return file_name
+
 
 class VacancyOptions(VacancyMethod):
     """
