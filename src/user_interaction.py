@@ -63,11 +63,16 @@ def user_interaction():
     else:
         # Вызов метод класса JSONSaver для сохранения топ списка вакансий в файл по пути /output_files/vacancy.json
         JSONSaver().save_vacancy(top_vacancy)
-        print('Вакансии сохранены, ищи их в рабочей директори по пути /output_files/vacancy.json')
-        print('Хорошего дня! :)')
+        print('>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/*.json')
+        print('>> Хорошего дня! :)')
 
 
-def get_started():
+def get_started(file_list):
+    """
+    Функция запускается при условии, что есть JSON файлы  в директории 'output_files'
+    :param file_list: список с названиями файлов в директории 'output_files'
+    :return: имя файла или None
+    """
     print('Хмм.. так-так, что-то там лежит в той коробочке..')
     start_data = input('Искать в прошлом поисковом запросе или начнем новый?'
                        '\n1. Искать в прошлом поиске'
