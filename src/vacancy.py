@@ -46,6 +46,63 @@ class Vacancy:
         for key in array:
             cls(key['vacancy'], key['town'], key['salary'], key['currency'], key['description'], key['link'])
 
+    @classmethod
+    def vacancy_to_list_hh(cls, response):
+        """
+        Метод создает экземпляры класса из ответа по API запросу от сервера HeadHunter,
+        предворительно выбирая нужные ключи из массива.
+        """
+        vacancy_list = []
+        for vacancy in response['items']:
+            description = vacancy['snippet']['requirement']
+            if description is None:
+                description = 'Нет описания'
+            else:
+                description = description.replace('<highlighttext>', '')
+                description = description.replace('</highlighttext>', '')
+            if vacancy['salary']['from'] is None:
+                salary = vacancy['salary']['to']
+            else:
+                salary = vacancy['salary']['from']
+
+            vacancy_list.append(
+                {'vacancy': vacancy['name'],
+                 'town': vacancy['area']['name'],
+                 'salary': salary,
+                 'currency': vacancy['salary']['currency'],
+                 'description': description[0:150],
+                 'link': vacancy['alternate_url']
+                 }
+            )
+        for key in vacancy_list:
+            cls(key['vacancy'], key['town'], key['salary'], key['currency'], key['description'], key['link'])
+
+    @classmethod
+    def vacancy_to_list_sj(cls, response):
+        """
+        Метод создает экземпляры класса из ответа по API запросу от сервера SuperJob,
+        предворительно выбирая нужные ключи из массива.
+        """
+        vacancy_list = []
+        for vacancy in response['objects']:
+            description = vacancy['candidat']
+            if vacancy['payment_from'] is None:
+                salary = vacancy['payment_to']
+            else:
+                salary = vacancy['payment_from']
+
+            vacancy_list.append(
+                {'vacancy': vacancy['profession'],
+                 'town': vacancy['town']['title'],
+                 'salary': salary,
+                 'currency': vacancy['currency'],
+                 'description': description[0:150],
+                 'link': vacancy['link']
+                 }
+            )
+        for key in vacancy_list:
+            cls(key['vacancy'], key['town'], key['salary'], key['currency'], key['description'], key['link'])
+
 
 class JSONSaver(VacancySaver):
     """
