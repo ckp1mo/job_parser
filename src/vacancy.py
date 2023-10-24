@@ -98,7 +98,13 @@ class VacancyOptions(VacancyMethod):
                             break
                 return vacancy_list
         except FileNotFoundError:
-            print('Файл не найден')
+            print('>> Файл не найден')
+        except json.JSONDecodeError:
+            print('>> Файл испорчен')
+        except TypeError:
+            print('>> Неккоректный формат вакансий')
+        except KeyError:
+            print('>> Неккоректный формат вакансий')
 
     def del_vacancy(self, top_vacancy, enter_data):
         """
