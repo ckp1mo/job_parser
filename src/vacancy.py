@@ -3,10 +3,8 @@ from pathlib import Path
 import json
 
 
-# OUTPUT_DIR - директория для сохранения файла VACANCY_FILE
+# директория для сохранения пользовательских файлов
 OUTPUT_DIR = Path(Path.cwd(), 'output_files')
-VACANCY_FILE = Path(Path.cwd(), 'output_files', 'vacancy.json')
-VACANCY_FILE_FILTERED = Path(Path.cwd(), 'output_files', 'vacancy_filtered.json')
 
 
 class Vacancy:
@@ -55,19 +53,18 @@ class JSONSaver(VacancySaver):
     """
     def save_vacancy(self, array):
         """
-        Метод формирует словарь с ключами по атрибутам класса Vacancy и далее
-        сохраняет его в формате json в файл в рабочей директории по пути 'output_files/vacancy.json'
-        При повторном фильтре из файла путь будет 'output_files/vacancy_filtered.json'
+        Метод формирует словарь с ключами по атрибутам класса Vacancy и далее сохраняет его
+        в формате json в файл в рабочей директории по пути 'output_files/*.json'
         :return: None
         """
         to_json = []
         if not OUTPUT_DIR.exists():
             OUTPUT_DIR.mkdir()
-        if VACANCY_FILE.exists():
-            vacancy_file = VACANCY_FILE_FILTERED
-        else:
-            vacancy_file = VACANCY_FILE
-
+        file_name = input('Введите имя файля для сохранения: \n')
+        if len(file_name) == 0:
+            file_name = 'nameless'
+        vacancy_file = Path(Path.cwd(), 'output_files', f'{file_name}.json')
+        vacancy_file.touch()
         with open(vacancy_file, 'w', encoding='utf-8') as f:
             for x in array:
                 to_json.append({
