@@ -61,9 +61,10 @@ def user_interaction():
     if len(top_vacancy) == 0:
         PrintInfo().print_if_vacancy_list_empty(user_interaction)
     else:
-        # Вызов метод класса JSONSaver для сохранения топ списка вакансий в файл по пути /output_files/vacancy.json
-        JSONSaver().save_vacancy(top_vacancy)
-        print('>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/*.json')
+        # Вызов метод класса JSONSaver для сохранения топ списка вакансий в файл по пути /output_files/{file_name}.json
+        file_name = JSONSaver().get_file_name()
+        JSONSaver().save_vacancy(top_vacancy, file_name)
+        print(f'>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/{file_name}.json')
         print('>> Хорошего дня! :)')
 
 
