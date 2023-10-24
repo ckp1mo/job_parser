@@ -10,7 +10,6 @@ class DataVerification:
         """
         search_query = input('Введите поисковый запрос: ')
         if len(search_query) == 0:
-            print('>> Некорректный ввод.\n>> Будет использовано значение "python".')
             search_query = 'python'
         return search_query
 
@@ -24,11 +23,9 @@ class DataVerification:
         if len(top_n) > 0:
             for i in top_n:
                 if i.isalpha():
-                    print('>> Некорректный ввод.\n>> Будет выведено 20 вакансий.')
                     top_n = 20
                     break
         else:
-            print('>> Некорректный ввод.\n>> Будет выведено 20 вакансий.')
             top_n = 20
         print('-' * 108)
         top_n = int(top_n)
@@ -55,11 +52,9 @@ class DataVerification:
                 platforms = platforms
                 platform_name = 'HeadHunter и SuperJob'
             else:
-                print('>> Некорректный выбор платформы. \n>> Поиск произойдет на обеих платформах.\n')
                 platforms = '3'
                 platform_name = 'HeadHunter и SuperJob'
         else:
-            print('>> Некорректный выбор платформы. \n>> Поиск произойдет на обеих платформах.\n')
             platforms = '3'
             platform_name = 'HeadHunter и SuperJob.'
         return platforms, platform_name
@@ -80,12 +75,9 @@ class DataVerification:
             is_filter = True
             filter_words = input("Введите ключевые слова для фильтрации вакансий: ").lower().split()
             if len(filter_words) == 0:
-                print('>> Фильтр невозможен, слова не заданы.')
                 is_filter = False
         elif filter_data == '2':
             is_filter = False
-        else:
-            print('>> Некорректный ввод. \n>> Фильтр по ключевым словам не применяется.')
         return is_filter, filter_words
 
     @staticmethod
@@ -118,8 +110,6 @@ class DataVerification:
                 text_reverse = 'Отсутствует'
         elif sort_data == '2':
             is_sort = False
-        else:
-            print('>> Некорректный ввод. \n>> Сортировка не применяется.')
         return is_sort, is_reverse, text_reverse
 
     @staticmethod
