@@ -27,10 +27,10 @@ if len(file_list) > 0:
                 if user_repeat == '1':
                     continue
                 elif user_repeat == '2':
-                    print('Понял, принял. Исполняю')
+                    print('>> Понял, принял. Исполняю')
                     user_interaction()
                 else:
-                    print('Это не то, что я ожидаю.. начнем новый поиск тогда')
+                    print('>> Это не то, что я ожидаю.. начнем новый поиск тогда')
                     user_interaction()
             try:
                 PrintInfo().print_vacancy(vacancy_list_by_key)
@@ -44,15 +44,15 @@ if len(file_list) > 0:
             if user_repeat == '1':
                 Vacancy.vacancy_to_instance(vacancy_list_by_key)
                 JSONSaver().save_vacancy(Vacancy.all)
-                print('Вакансии сохранены, ищи их в рабочей директори по пути /output_files/vacancy_filtered.json')
-                print('Хорошего дня! :)')
+                print('>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/*.json')
+                print('>> Хорошего дня! :)')
                 break
             elif user_repeat == '2':
                 continue
             elif user_repeat == '3':
                 user_interaction()
             else:
-                print('Хорошего дня! :)')
+                print('>> Хорошего дня! :)')
                 break
     else:
         user_interaction()
