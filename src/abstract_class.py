@@ -33,5 +33,5 @@ class VacancyMethod(ABC):
 class VacancySaver(ABC):
 
     @abstractmethod
-    def save_vacancy(self, array):
+    def save_vacancy(self, array, file_name):
         pass
