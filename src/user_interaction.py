@@ -1,15 +1,9 @@
-from utils.utils import get_from_api, vacancy_filter, sort_vacancy_by_salary, get_top_vacancies
+from utils.utils import vacancy_filter, get_top_vacancies
 from utils.print_info import PrintInfo
 from utils.data_collector import data_collector
 from utils.data_verification import DataVerification
-from src.hh_api import HHRequestApi, HHVacancy
-from src.sj_api import SJRequestApi, SJVacancy
+from src.platforms_request_api import PlatformsRequestApi
 from src.vacancy import Vacancy, JSONSaver, VacancyOptions
-from pathlib import Path
-import json
-
-
-VACANCY_FILE = Path(Path.cwd(), 'output_files', 'vacancy.json')
 
 
 def user_interaction():
@@ -35,8 +29,6 @@ def user_interaction():
         all_vacancy = get_from_api(HHRequestApi, HHVacancy, data_collection['search_query']) + \
                       get_from_api(SJRequestApi, SJVacancy, data_collection['search_query'])
 
-    # Создание экземпляров вакансий на основе запроса методом класса Vacancy
-    Vacancy.vacancy_to_instance(all_vacancy)
     # Список всех созданных экземпляров класса Vacancy
     vacancy_list = Vacancy.all
 
@@ -65,9 +57,6 @@ def user_interaction():
     if len(top_vacancy) == 0:
         PrintInfo().print_if_vacancy_list_empty(user_interaction)
     else:
-        # Удаление файла с прошлых запросов, а почему бы и нет)
-        if VACANCY_FILE.exists():
-            VACANCY_FILE.unlink()
         # Вызов метод класса JSONSaver для сохранения топ списка вакансий в файл по пути /output_files/vacancy.json
         JSONSaver().save_vacancy(top_vacancy)
         print('Вакансии сохранены, ищи их в рабочей директори по пути /output_files/vacancy.json')
