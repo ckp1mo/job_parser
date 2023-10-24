@@ -79,28 +79,19 @@ def get_started(file_list):
                        '\n2. Начать новый поиск\n'
                        )
     if start_data == '1':
-        user_choice = input('Посмотреть список вакансий или сразу поищем по ключевым словам?'
-                            '\n1. Посмотреть'
-                            '\n2. Искать\n'
-                            )
-        if user_choice == '1':
+        print('В каком файле будем искать?')
+        while True:
+            for i, file in enumerate(file_list, start=1):
+                print(f'{i} - {file}')
             try:
-                with open(VACANCY_FILE, 'r', encoding='utf-8') as f:
-                    PrintInfo().print_vacancy(json.load(f))
-                    return True
-            except json.JSONDecodeError:
-                print('Файл испорчен')
-                print('Запускаю новый поиск')
-            except TypeError:
-                print('Неккоректный формат вакансий')
-                print('Запускаю новый поиск')
-        elif user_choice == '2':
-            return True
-        else:
-            print('И так сойдет')
-            return False
-    elif start_data == '2':
-        return False
+                user_choice = int(input('Введите номер\n'))
+                if user_choice == 0:
+                    print('>> По такому номеру нет файла')
+                    continue
+                return file_list[user_choice-1]
+            except ValueError:
+                print('>> Нужно ввести цифру')
+            except IndexError:
+                print('>> По такому номеру нет файла')
     else:
-        print('И так сойдет')
-        return False
+        print('>> Запущен новый поиск')
