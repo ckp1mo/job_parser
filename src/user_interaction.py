@@ -17,17 +17,18 @@ def user_interaction():
     data_collection = data_collector()
     print('\nСекундочку..\n')
 
-    # В блоке ниже вызывается функция get_from_api, а для all_vacancy присваивается массив с вакансиями
+    # В блоке ниже матрешка. Вызывается классметод класса Vacancy, в него передается ответ сервера.
+    # Который возвращается при вызове метода класса PlatformsRequestApi, с переданным ключем запроса в экземпляр
     if data_collection['platforms'] == "1":
-        all_vacancy = get_from_api(HHRequestApi, HHVacancy, data_collection['search_query'])
+        Vacancy.vacancy_to_list_hh(PlatformsRequestApi(data_collection['search_query']).get_vacancies_hh())
     elif data_collection['platforms'] == "2":
-        all_vacancy = get_from_api(SJRequestApi, SJVacancy, data_collection['search_query'])
+        Vacancy.vacancy_to_list_sj(PlatformsRequestApi(data_collection['search_query']).get_vacancies_sj())
     elif data_collection['platforms'] == '3':
-        all_vacancy = get_from_api(HHRequestApi, HHVacancy, data_collection['search_query']) + \
-                      get_from_api(SJRequestApi, SJVacancy, data_collection['search_query'])
+        Vacancy.vacancy_to_list_hh(PlatformsRequestApi(data_collection['search_query']).get_vacancies_hh())
+        Vacancy.vacancy_to_list_sj(PlatformsRequestApi(data_collection['search_query']).get_vacancies_sj())
     else:
-        all_vacancy = get_from_api(HHRequestApi, HHVacancy, data_collection['search_query']) + \
-                      get_from_api(SJRequestApi, SJVacancy, data_collection['search_query'])
+        Vacancy.vacancy_to_list_hh(PlatformsRequestApi(data_collection['search_query']).get_vacancies_hh())
+        Vacancy.vacancy_to_list_sj(PlatformsRequestApi(data_collection['search_query']).get_vacancies_sj())
 
     # Список всех созданных экземпляров класса Vacancy
     vacancy_list = Vacancy.all
