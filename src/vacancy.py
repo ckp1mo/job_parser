@@ -108,20 +108,18 @@ class JSONSaver(VacancySaver):
     """
     Класс для сохранения вакансий в файл.
     """
-    def save_vacancy(self, array):
+    def save_vacancy(self, array, file_name):
         """
         Метод формирует словарь с ключами по атрибутам класса Vacancy и далее сохраняет его
         в формате json в файл в рабочей директории по пути 'output_files/*.json'
+        :param array: список экземпляров класса Vacancy: list
+        :param file_name: будущее имя для файла: str
         :return: None
         """
         to_json = []
         if not OUTPUT_DIR.exists():
             OUTPUT_DIR.mkdir()
-        file_name = input('Введите имя файля для сохранения: \n')
-        if len(file_name) == 0:
-            file_name = 'nameless'
         vacancy_file = Path(Path.cwd(), 'output_files', f'{file_name}.json')
-        vacancy_file.touch()
         with open(vacancy_file, 'w', encoding='utf-8') as f:
             for x in array:
                 to_json.append({
@@ -183,7 +181,7 @@ class VacancyOptions(VacancyMethod):
             with open(output_file, 'r', encoding='utf-8') as f:
                 vacancy_list = []
                 data = json.load(f)
-                for num, copy in enumerate(data, start=1):
+                for copy in data:
                     for word in key_word:
                         if word in copy['vacancy'].lower() or word in copy['description'].lower():
                             vacancy_list.append(copy)
