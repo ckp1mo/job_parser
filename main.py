@@ -7,17 +7,18 @@ OUTPUT_FILES = Path(Path.cwd(), 'output_files')
 
 
 print('Привет!')
-file_list = []
-for files in OUTPUT_FILES.glob('*.json'):
-    if files.exists():
-        file_list.append(files.name)
+# Создаем списочек с файлами из директории 'output_files'
+file_list = [files.name for files in OUTPUT_FILES.glob('*.json') if files.exists()]
+# Если списочек с файлами пуст, начинает новый поиск
 if len(file_list) > 0:
+    # Вызов функции get_started, потому что у нас есть файлы, в которых множно что-то поискать
     file_name = get_started(file_list)
     file_path = Path(Path.cwd(), 'output_files', f'{file_name}')
-    print(file_path)
+    # Если функция что-то вернула, значит идем искать по ключевым словам
     if file_name:
         while True:
             key_word = input('Введите ключевые слова для поиска по вакансиям: ').lower().split()
+            # Вызывается метод get_by_key() класса VacancyOptions, для создания списка с вакансиями по ключевым словам
             vacancy_list_by_key = VacancyOptions().get_by_key(file_path, key_word)
             if vacancy_list_by_key is None or len(vacancy_list_by_key) == 0:
                 print('>> Поиск по ключевым словам не удался\n')
@@ -42,9 +43,13 @@ if len(file_list) > 0:
                                 '\n3. Начать новый поиск'
                                 '\n4. Завершить программу\n')
             if user_repeat == '1':
+                # Запускаем классметод создания вакансий из JSON файла
                 Vacancy.vacancy_to_instance(vacancy_list_by_key)
-                JSONSaver().save_vacancy(Vacancy.all)
-                print('>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/*.json')
+                # Получаем в переменную имя нового файла
+                file_name = JSONSaver().get_file_name()
+                # Сохранение отобранных вакансий в файл
+                JSONSaver().save_vacancy(Vacancy.all, file_name)
+                print(f'>> Вакансии сохранены, ищи их в рабочей директори по пути /output_files/{file_name}.json')
                 print('>> Хорошего дня! :)')
                 break
             elif user_repeat == '2':
