@@ -37,9 +37,12 @@ def user_interaction():
     if data_collection['is_filter']:
         # Вызываем функцию для выполнения фильтрации по заданным ключам
         vacancy_list = vacancy_filter(data_collection['filter_words'], Vacancy.all)
+    # Запускаем сортировку по выбранным параметрам
     if data_collection['is_sort']:
-        # вызываем функцию для сортировки по зарплате
-        vacancy_list = sort_vacancy_by_salary(vacancy_list, data_collection['is_reverse'])
+        if data_collection['is_reverse']:
+            vacancy_list = sorted(vacancy_list, reverse=True)
+        else:
+            vacancy_list = sorted(vacancy_list, reverse=False)
 
     # вызов функции для отображения параметров поискового запроса
     PrintInfo().print_options(data_collection)
